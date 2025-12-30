@@ -1,30 +1,48 @@
 name: Vite CI
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+  push: 
+    branches: [master]
 
-jobs: 
-  build:
+jobs:
+
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - run: echo "This is a basic pipeline for Vite + React project"
+      - name: Checkout code Repository
+        uses: actions/checkout@v4
 
-      - name: checkout Code
-        uses: actions/checkout@v3
-
-      - name: setup nodejs
-        uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
       
       - name: install dependencies
-        run: npm install
+        run: npm ci
+
+      - name: Lint Codebase
+        run: npm run lint
       
-      - name: run build
+      - name: Run Tests
+        run: npm run test
+  
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout code Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: install dependencies
+        run: npm ci
+
+      - name: Build Project
         run: npm run build
-      
       
