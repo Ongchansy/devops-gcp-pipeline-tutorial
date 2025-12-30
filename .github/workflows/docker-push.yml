@@ -33,3 +33,23 @@ jobs:
         run: |
           docker push chansy/myapp:latest
           docker push chansy/myapp:${{ github.sha }}
+  deploy_vps: 
+    runs-on: ubuntu-latest
+    needs: docker
+    environment: VPS_ENV
+    
+    steps:
+    - name: SSH and Deploy
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+                # Pull the new Docker image
+                docker pull chansy/myapp:${{ github.sha }}
+                # Stop and remove the existing container
+                docker stop myapp || true
+                docker rm myapp || true
+                # Run the new container
+                docker run -d --name myapp -p 80:80 chansy/myapp:${{ github.sha }}
