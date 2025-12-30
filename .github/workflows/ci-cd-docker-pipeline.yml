@@ -2,7 +2,7 @@ name: Vite CI with docker pipeline
 
 on:
     push:
-        branches: [master]
+        branches: [not-master]
 
 
 jobs:
