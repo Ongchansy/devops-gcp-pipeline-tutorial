@@ -2,7 +2,7 @@ name: Vite CI
 
 on:
   push: 
-    branches: [master]
+    branches: [not-master]
 
 jobs:
 
@@ -43,3 +43,4 @@ jobs:
       - name: Build Project
         run: npm run build
       
+

@@ -1,0 +1,31 @@
+name: Vite CI with docker pipeline
+
+on:
+    push:
+        branches: [master]
+
+
+jobs:
+    build-docker-image:
+        runs-on: ubuntu-latest
+        environment: DOCKER_ENV
+
+        steps:
+            - name: Checkout code Repository
+              uses: actions/checkout@v4
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v2
+
+            - name: Login to DockerHub
+              uses: docker/login-action@v2
+              with:
+                  username: ${{ secrets.DOCKERHUB_USERNAME }}
+                  password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+            - name: Build and Push Docker Image
+              uses: docker/build-push-action@v4
+              with:
+                  context: .
+                  push: true
+                  tags: ${{ secrets.DOCKERHUB_USERNAME }}/vite-project:latest
