@@ -12,3 +12,21 @@ jobs:
 
     steps:
       - run: echo "This is a basic pipeline for Vite + React project"
+
+      - name: checkout Code
+        uses: actions/checkout@v3
+
+      - name: setup nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      
+      - name: install dependencies
+        run: npm install
+      
+      - name: run build
+        run: npm run build
+      
+      - name: run tests
+        run: npm test
+      
