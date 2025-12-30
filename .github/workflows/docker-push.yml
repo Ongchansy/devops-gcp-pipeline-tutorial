@@ -52,4 +52,4 @@ jobs:
                 docker stop myapp || true
                 docker rm myapp || true
                 # Run the new container
-                docker run -d --name myapp -p 80:80 chansy/myapp:${{ github.sha }}
+                docker run -d --name myapp -p 5432:5432 chansy/myapp:${{ github.sha }}
