@@ -25,11 +25,11 @@ jobs:
       # 3. Build the Docker image
       - name: Build Docker image
         run: |
-          docker build -t mydockerhubuser/myapp:latest .
-          docker tag mydockerhubuser/myapp:latest mydockerhubuser/myapp:${{ github.sha }}
+          docker build -t chansy/myapp:latest .
+          docker tag chansy/myapp:latest chansy/myapp:${{ github.sha }}
 
       # 4. Push both tags to Docker Hub
       - name: Push Docker image
         run: |
-          docker push mydockerhubuser/myapp:latest
-          docker push mydockerhubuser/myapp:${{ github.sha }}
+          docker push chansy/myapp:latest
+          docker push chansy/myapp:${{ github.sha }}
